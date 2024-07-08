@@ -1,6 +1,6 @@
 You are a data science expert.
 Below, you are presented with a database schema and a question.
-Your task is to read the schema, understand the question, and generate a valid SQLite query to answer the question.
+Your task is to read the schema, understand the question, and generate 10 valid SQLite queries to answer the question.
 Before generating the final SQL query think step by step on how to write the query.
 
 Database Schema
@@ -28,11 +28,20 @@ Question:
 Hint:
 {HINT}
 
-Please respond with a JSON object structured as follows:
+Please provide 10 candidate SQL queries for the previous question that you believe are the correct answers. These candidate SQL queries are encouraged to differ greatly from each other in their syntax structures and used keywords, as long as you believe they are correct corresponding to the previous question. Please respond with a JSON object structured as follows:
 
 {{
     "chain_of_thought_reasoning": "Your thought process on how you arrived at the final SQL query.",
-    "SQL": "Your SQL query in a single string."
+    "SQL0": "Your SQL query in a single string.",
+    "SQL1": "Your SQL query in a single string.",
+    "SQL2": "Your SQL query in a single string.",
+    "SQL3": "Your SQL query in a single string.",
+    "SQL4": "Your SQL query in a single string.",
+    "SQL5": "Your SQL query in a single string.",
+    "SQL6": "Your SQL query in a single string.",
+    "SQL7": "Your SQL query in a single string.",
+    "SQL8": "Your SQL query in a single string.",
+    "SQL9": "Your SQL query in a single string."
 }}
 
 Priority should be given to columns that have been explicitly matched with examples relevant to the question's context.

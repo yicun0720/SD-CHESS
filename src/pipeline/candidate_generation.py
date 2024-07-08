@@ -51,7 +51,7 @@ def candidate_generation(task: Any, tentative_schema: Dict[str, List[str]], exec
         sampling_count=sampling_count
     )[0]
     
-    sqls = [res["SQL"] for res in response]
+    sqls = [res["SQL" + str(i)] for i in range(10) for res in response]
     sql = DatabaseManager().aggregate_sqls(sqls)
     result = next(res for res in response if res["SQL"] == sql)
     

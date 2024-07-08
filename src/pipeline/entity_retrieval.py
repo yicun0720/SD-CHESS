@@ -188,7 +188,7 @@ def get_similar_entities(keywords: List[str]) -> Dict[str, Dict[str, List[str]]]
         if hint_value:
             to_search_values = [hint_value, *to_search_values]
         
-        with concurrent.futures.ThreadPoolExecutor() as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
             futures = {executor.submit(get_similar_values_target_string, ts): ts for ts in to_search_values}
             for future in concurrent.futures.as_completed(futures):
                 target_string, similar_values = future.result()

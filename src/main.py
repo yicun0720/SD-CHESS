@@ -12,12 +12,58 @@ def parse_arguments() -> argparse.Namespace:
     Returns:
         argparse.Namespace: The parsed command-line arguments.
     """
+    pipeline_setup =    \
+        {
+            "keyword_extraction": {
+                "engine": "gpt-3.5-turbo-0125",
+                "temperature": 0.2,
+                "base_uri": ""
+            },
+            "entity_retrieval": {
+                "mode": "ask_model"
+            },
+            "context_retrieval": {
+                "mode": "vector_db",
+                "top_k": 5
+            },
+            "column_filtering": {
+                "engine": "gpt-3.5-turbo-0125",
+                "temperature": 0.0,
+                "base_uri": ""
+            },
+            "table_selection": {
+                "mode": "ask_model",
+                "engine": "gpt-4-turbo",
+                "temperature": 0.0,
+                "base_uri": "",
+                "sampling_count": 1
+            },
+            "column_selection": {
+                "mode": "ask_model",
+                "engine": "gpt-4-turbo",
+                "temperature": 0.0,
+                "base_uri": "",
+                "sampling_count": 1
+            },
+            "candidate_generation": {
+                "engine": "gpt-4-turbo",
+                "temperature": 0.0,
+                "base_uri": "",
+                "sampling_count": 1
+            },
+            # "revision": {
+            #     "engine": "gpt-4-turbo",
+            #     "temperature": 0.0,
+            #     "base_uri": "",
+            #     "sampling_count": 1
+            # }
+        }
     parser = argparse.ArgumentParser(description="Run the pipeline with the specified configuration.")
-    parser.add_argument('--data_mode', type=str, required=True, help="Mode of the data to be processed.")
-    parser.add_argument('--data_path', type=str, required=True, help="Path to the data file.")
-    parser.add_argument('--pipeline_nodes', type=str, required=True, help="Pipeline nodes configuration.")
-    parser.add_argument('--pipeline_setup', type=str, required=True, help="Pipeline setup in JSON format.")
-    parser.add_argument('--use_checkpoint', action='store_true', help="Flag to use checkpointing.")
+    parser.add_argument('--data_mode', type=str, help="Mode of the data to be processed.", default="dev")
+    parser.add_argument('--data_path', type=str, help="Path to the data file.", default="./data/dev/dev.json")
+    parser.add_argument('--pipeline_nodes', type=str, help="Pipeline nodes configuration.", default="keyword_extraction+entity_retrieval+context_retrieval+column_filtering+table_selection+column_selection+candidate_generation")
+    parser.add_argument('--pipeline_setup', type=str, help="Pipeline setup in JSON format.", default=json.dumps(pipeline_setup))
+    parser.add_argument('--use_checkpoint', action='store_true', help="Flag to use checkpointing.", default=False)
     parser.add_argument('--checkpoint_nodes', type=str, required=False, help="Checkpoint nodes configuration.")
     parser.add_argument('--checkpoint_dir', type=str, required=False, help="Directory for checkpoints.")
     parser.add_argument('--log_level', type=str, default='warning', help="Logging level.")

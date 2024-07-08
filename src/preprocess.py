@@ -37,8 +37,8 @@ def worker_initializer(db_id: str, args: argparse.Namespace):
 if __name__ == '__main__':
     # Setup argument parser
     args_parser = argparse.ArgumentParser()
-    args_parser.add_argument('--db_root_directory', type=str, required=True, help="Root directory of the databases")
-    args_parser.add_argument('--signature_size', type=int, default=20, help="Size of the MinHash signature")
+    args_parser.add_argument('--db_root_directory', type=str, help="Root directory of the databases", default="./data/dev/dev_databases")
+    args_parser.add_argument('--signature_size', type=int, default=100, help="Size of the MinHash signature")
     args_parser.add_argument('--n_gram', type=int, default=3, help="N-gram size for the MinHash")
     args_parser.add_argument('--threshold', type=float, default=0.01, help="Threshold for the MinHash LSH")
     args_parser.add_argument('--db_id', type=str, default='all', help="Database ID or 'all' to process all databases")

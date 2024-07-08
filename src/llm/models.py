@@ -4,6 +4,7 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List
+import logging
 
 from langchain_core.exceptions import OutputParserException
 from langchain.output_parsers import OutputFixingParser
@@ -131,7 +132,7 @@ def async_llm_chain_call(prompt: Any, engine: Any, parser: Any, request_list: Li
     result_queue = queue.Queue()  # Queue to store results
     log_file_lock = threading.Lock()
 
-    with ThreadPoolExecutor(max_workers=len(request_list) * sampling_count) as executor:
+    with ThreadPoolExecutor(3) as executor:
         for request_id, request_kwargs in enumerate(request_list):
             for _ in range(sampling_count):
                 executor.submit(threaded_llm_call, request_id, prompt, engine, parser, request_kwargs, step, result_queue, log_file_lock)

@@ -11,7 +11,7 @@ from runner.statistics_manager import StatisticsManager
 from pipeline.workflow_builder import build_pipeline
 from pipeline.pipeline_manager import PipelineManager
 
-NUM_WORKERS = 11
+NUM_WORKERS = 1
 
 class RunManager:
     RESULT_ROOT_PATH = "results"
@@ -65,11 +65,14 @@ class RunManager:
 
     def run_tasks(self):
         """Runs the tasks using a pool of workers."""
-        with Pool(NUM_WORKERS) as pool:
-            for task in self.tasks:
-                pool.apply_async(self.worker, args=(task,), callback=self.task_done)
-            pool.close()
-            pool.join()
+        # with Pool(NUM_WORKERS) as pool:
+        #     for task in self.tasks:
+        #         pool.apply_async(self.worker, args=(task,), callback=self.task_done)
+        #     pool.close()
+        #     pool.join()
+        for task in self.tasks:
+            res = self.worker(task)
+            self.task_done(res)
 
     def worker(self, task: Task) -> Tuple[Any, str, int]:
         """
